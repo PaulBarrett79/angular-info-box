@@ -5,7 +5,7 @@ An angular directive to allow a simple help mechanism, with an "info" icon and a
 
 You can use free text or configure the directive to use a "lookup" object - keys representing a message.
 
-You can use the directive either as an attribute, element or class. The directive positions an info glyphicon where you use the directice, with a ui-bootstrap tooltip displaying a supplied message.
+You can use the directive either as an attribute, element or class. The directive positions an info glyphicon where you use the directive, with a ui-bootstrap tooltip displaying a supplied message.
 
 ```
 <info-box></info-box>
@@ -31,3 +31,4 @@ var messages = {
         "message2": "Message 2 Help Text",
     }
 ```
+TODO - allow specification of whatever icon the user wishes to use
