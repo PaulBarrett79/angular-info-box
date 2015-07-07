@@ -1,7 +1,7 @@
 angular.module('angular-info-box', [])
 .directive('infoBox', function () {
     return {
-      template: '&nbsp;<span  tabindex="-1" class="glyphicon glyphicon-info-sign blue" data-toggle="popover" data-content="{{displaytext}}" ng-show="displaytext" data-placement="left" data-container="body"></span>',
+      template: '&nbsp;<span ng-if="right"><span  tabindex="-1" class="glyphicon glyphicon-info-sign blue" data-toggle="popover" data-content="{{displaytext}}" ng-show="displaytext" data-placement="right" data-container="body"></span></span>   <span ng-if="!right"><span  tabindex="-1" class="glyphicon glyphicon-info-sign blue" data-toggle="popover" data-content="{{displaytext}}" ng-show="displaytext" data-placement="left" data-container="body"></span></span>',
       restrict: 'AEC',
       transclude: true,
       /*link: function postLink(scope, element, attrs) {
@@ -42,7 +42,7 @@ angular.module('angular-info-box', [])
         freetext:'@',
         //if you are using a set of things to lookup with, include them here. should probably be a scoped object,
         lookupitems: '=',
-        left:'@',
+        right:'=',
 
       },
     };

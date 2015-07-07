@@ -31,4 +31,12 @@ var messages = {
         "message2": "Message 2 Help Text",
     }
 ```
+
+By default the info box popup will be on the left
+To move it to the right do 
+```
+<info-box lookup="message1" right="true" lookupitems="messages"></info-box>
+```
+
+
 TODO - allow specification of whatever icon the user wishes to use
