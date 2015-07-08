@@ -1,36 +1,47 @@
 angular.module('angular-info-box', [])
-.directive('infoBox', function () {
+.directive('infoBox', function ($compile) {
     return {
-      template: '&nbsp;<span ng-if="right"><span  tabindex="-1" class="glyphicon glyphicon-info-sign blue" data-toggle="popover" data-content="{{displaytext}}" ng-show="displaytext" data-placement="right" data-container="body"></span></span>   <span ng-if="!right"><span  tabindex="-1" class="glyphicon glyphicon-info-sign blue" data-toggle="popover" data-content="{{displaytext}}" ng-show="displaytext" data-placement="left" data-container="body"></span></span>',
       restrict: 'AEC',
       transclude: true,
-      /*link: function postLink(scope, element, attrs) {
-        element.text('this is the infoBox directive');
-      }*/
+      link: function postLink(scope, element, attrs) {
+        if(scope.freetext) {
+          scope.displaytext = scope.freetext;
+        }
+        else {
+          //check that lookup items have been supplied
+          if(!scope.lookupitems) {
+            //we can't look anything up - return empty string
+            console.log("InfoBox Error for " + scope.lookup + " - lookups object is empty, supply some or use freetext attribute");
+            scope.displaytext = "";
+          }
+          //if it's not null, we need to check it is an object (not str, array etc)
+          else if(!angular.isObject(scope.lookupitems)){
+
+          }
+          else {
+            scope.displaytext = scope.lookupitems[scope.lookup];
+          }
+        }
+
+        var template = '&nbsp;<span  tabindex="-1" class="glyphicon glyphicon-info-sign blue" data-toggle="popover" data-content="{{displaytext}}" ng-show="displaytext" data-placement="left" data-container="body"></span>';
+
+        if(scope.right){
+         template = '&nbsp;<span  tabindex="-1" class="glyphicon glyphicon-info-sign blue" data-toggle="popover" data-content="{{displaytext}}" ng-show="displaytext" data-placement="right" data-container="body"></span>';
+
+        }
+        element.html(template).show();
+
+        $compile(element.contents())(scope);
+
+
+      },
       controller: ['$scope', function($scope) {
         //$scope.tooltext = "test here";
         
 
-        $('[data-toggle="popover"]').popover( {trigger: 'focus'} );
         //always default to freetext if both it and lookup are present
-        if($scope.freetext) {
-          $scope.displaytext = $scope.freetext;
-        }
-        else {
-          //check that lookup items have been supplied
-          if(!$scope.lookupitems) {
-            //we can't look anything up - return empty string
-            console.log("InfoBox Error for " + $scope.lookup + " - lookups object is empty, supply some or use freetext attribute");
-            $scope.displaytext = "";
-          }
-          //if it's not null, we need to check it is an object (not str, array etc)
-          else if(!angular.isObject($scope.lookupitems)){
-
-          }
-          else {
-            $scope.displaytext = $scope.lookupitems[$scope.lookup];
-          }
-        }
+        
+        $('[data-toggle="popover"]').popover( {trigger: 'focus'} );
 
         
         
