@@ -23,10 +23,10 @@ angular.module('angular-info-box', [])
           }
         }
 
-        var template = '&nbsp;<span  tabindex="-1" class="glyphicon glyphicon-info-sign blue" data-toggle="popover" data-content="{{displaytext}}" ng-show="displaytext" data-placement="left" data-container="body"></span>';
+        var template = '&nbsp;<span  tabindex="-1" class="glyphicon glyphicon-info-sign blue" data-toggle="popover" data-content="{{displaytext}}" ng-show="displaytext" data-placement="left" data-container="body" data-original-title></span>';
 
         if(scope.right){
-         template = '&nbsp;<span  tabindex="-1" class="glyphicon glyphicon-info-sign blue" data-toggle="popover" data-content="{{displaytext}}" ng-show="displaytext" data-placement="right" data-container="body"></span>';
+         template = '&nbsp;<span  tabindex="-1" class="glyphicon glyphicon-info-sign blue" data-toggle="popover" data-content="{{displaytext}}" ng-show="displaytext" data-placement="right" data-container="body" data-original-title></span>';
 
         }
         element.html(template).show();
@@ -35,14 +35,15 @@ angular.module('angular-info-box', [])
 
 
       },
-      controller: ['$scope', function($scope) {
-        //$scope.tooltext = "test here";
+      controller: ['$scope', '$timeout', function($scope, $timeout) {
         
 
         //always default to freetext if both it and lookup are present
         
-        $('[data-toggle="popover"]').popover( {trigger: 'focus'} );
-
+        //popover was not being initialised in time - make sure it is rendered outside of the initial digest cycle
+        $timeout(function () { 
+            $('[data-toggle="popover"]').popover( {trigger: 'focus'} );
+        });
         
         
       }],
@@ -53,7 +54,7 @@ angular.module('angular-info-box', [])
         freetext:'@',
         //if you are using a set of things to lookup with, include them here. should probably be a scoped object,
         lookupitems: '=',
-        right:'=',
+        right:'@',
 
       },
     };
